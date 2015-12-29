@@ -14,14 +14,14 @@ namespace ru.itpc.trial.Models
         DateTime BirthDate { get; }
     }
 
-    public interface PersonNew : Person
+    public interface PersonSetter : Person
     {
-        new string FirstName { get; set; }
-        new string LastName { get; set; }
-        new DateTime BirthDate { get; set; }
+        new string FirstName { set; }
+        new string LastName { set; }
+        new DateTime BirthDate { set; }
     }
 
-    public class PersonRecord : PersonNew
+    public class PersonRecord : PersonSetter
     {
         string firstName;
         string lastName;

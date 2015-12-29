@@ -27,14 +27,11 @@ namespace ru.itpc.trial.Data
 
         public T Get<T>()
         {
-            if (typeof(T) == typeof(List<DriverLicenseRecord>))
-                return (T)Convert.ChangeType(DriversLicensesRecords, typeof(T));
-            if (typeof(T) == typeof(List<string>))
-                return (T)Convert.ChangeType(Strings, typeof(T));
-            if (typeof(T) == typeof(List<int>))
-                return (T)Convert.ChangeType(Integers, typeof(T));
-            if (typeof(T) == typeof(DateTime))
-                return (T)Convert.ChangeType(LastChange, typeof(T));
+            foreach (PropertyInfo property in this.GetType().GetProperties())
+            {
+                if (typeof(T).IsAssignableFrom(property.PropertyType))
+                    return (T)property.GetValue(this);
+            }
             return default(T);
         }
     }
