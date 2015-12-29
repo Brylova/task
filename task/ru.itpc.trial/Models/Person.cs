@@ -9,19 +9,12 @@ namespace ru.itpc.trial.Models
 {
     public interface Person : Identified<string>
     {
-        string FirstName { get; }
-        string LastName { get; }
-        DateTime BirthDate { get; }
+        string FirstName { get; set; }
+        string LastName { get; set; }
+        DateTime BirthDate { get; set; }
     }
 
-    public interface PersonSetter : Person
-    {
-        new string FirstName { set; }
-        new string LastName { set; }
-        new DateTime BirthDate { set; }
-    }
-
-    public class PersonRecord : PersonSetter
+    public class PersonRecord : Person
     {
         string firstName;
         string lastName;
@@ -42,7 +35,7 @@ namespace ru.itpc.trial.Models
 
         }
 
-        new public string FirstName
+        public string FirstName
         {
             get { return firstName; }
             set { firstName = value; }
