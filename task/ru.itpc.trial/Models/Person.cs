@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace ru.itpc.trial.Models
 {
@@ -14,7 +16,7 @@ namespace ru.itpc.trial.Models
         DateTime BirthDate { get; set; }
     }
 
-    public class PersonRecord : Person
+    public class PersonRecord : Controller, Person
     {
         string firstName;
         string lastName;
@@ -35,6 +37,7 @@ namespace ru.itpc.trial.Models
 
         }
 
+        [StringLength(100, MinimumLength = 2, ErrorMessage = "Incorrect Firstname length")]
         public string FirstName
         {
             get { return firstName; }
@@ -47,6 +50,7 @@ namespace ru.itpc.trial.Models
             set { lastName = value; }
         }
 
+        [Range(typeof(DateTime), "1/1/1900", "1/1/5000", ErrorMessage = "Incorrect BirthDate")]
         public DateTime BirthDate
         {
             get { return birthDate; }
@@ -56,6 +60,18 @@ namespace ru.itpc.trial.Models
         public string Id
         {
             get { return id; }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                if (firstName.Length < 2 || firstName.Length > 100)
+                    ModelState.AddModelError("FirstName", "Incorrect Firstname length");
+                if (birthDate < new DateTime(1900, 01, 01))
+                    ModelState.AddModelError("BirthDate", "Incorrect BirthDate");
+                return ModelState.IsValid;
+            }
         }
     }
 }
